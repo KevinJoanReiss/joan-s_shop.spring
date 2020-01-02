@@ -9,23 +9,24 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long productId;
 
-    private String productname;
+    private String productName;
 
     private double price;
 
-    public Product(long productId, String productname, double price) {
-        this.productId = productId;
-        this.productname = productname;
+    public Product(String productname, double price) {
+        this.productName = productname;
         this.price = price;
     }
+
+    public Product() {}
 
     public long getProductId() { return productId; }
 
     public void setProductId(long productId) { this.productId = productId; }
 
-    public String getProductname() { return productname; }
+    public String getProductName() { return productName; }
 
-    public void setProductname(String productname) { this.productname = productname; }
+    public void setProductName(String productname) { this.productName = productname; }
 
     public double getPrice() { return price; }
 

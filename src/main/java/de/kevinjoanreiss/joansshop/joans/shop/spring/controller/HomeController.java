@@ -1,27 +1,41 @@
 package de.kevinjoanreiss.joansshop.joans.shop.spring.controller;
 
 import de.kevinjoanreiss.joansshop.joans.shop.spring.entity.Product;
+import de.kevinjoanreiss.joansshop.joans.shop.spring.service.ProductServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class HomeController {
 
+    @Autowired
+    ProductServiceIF productServiceIF;
+
     @RequestMapping("/")
     public String starten(Model model) {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product(1, "Pfeffer", 1.29));
-        products.add(new Product(2, "Salz", 1.29));
-        products.add(new Product(3, "Oregano", 1.29));
-
-        model.addAttribute("poductlist", products);
-
+        model.addAttribute("productlist", productServiceIF.getProductlist());
         return "home";
+    }
+
+    @RequestMapping("/createProduct")
+    public String createProduct() {
+        return "createProduct";
+    }
+
+    @RequestMapping("/insertProduct")
+    public String insertProduct(@ModelAttribute("productname") String productname,
+                                @ModelAttribute("price") double price,
+                                Model model) {
+        Product product = new Product(productname, (double) price);
+        productServiceIF.createProduct(product);
+        return "redirect:/";
     }
 
 }

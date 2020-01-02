@@ -1,10 +1,12 @@
-/*package de.kevinjoanreiss.joansshop.joans.shop.spring.service;
+package de.kevinjoanreiss.joansshop.joans.shop.spring.service;
 
 import de.kevinjoanreiss.joansshop.joans.shop.spring.entity.Product;
 import de.kevinjoanreiss.joansshop.joans.shop.spring.repository.ProductRepository;
-import de.kevinjoanreiss.joansshop.joans.shop.spring.service.ProductServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductService implements ProductServiceIF {
@@ -17,5 +19,9 @@ public class ProductService implements ProductServiceIF {
         Product newProduct = productRepository.save(product);
         return newProduct;
     }
+
+    @Override
+    public Iterable<Product> getProductlist() {
+        return productRepository.findAll();
+    }
 }
-*/

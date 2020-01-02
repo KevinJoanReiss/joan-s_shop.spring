@@ -39,7 +39,7 @@
                     <a class="nav-link" href="#">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="/createProduct">Create Product</a>
                 </li>
             </ul>
         </div>
@@ -90,18 +90,27 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+
+            <div class="page-title">Product List</div>
+            <table border="1" cellpadding="10">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${productlist}">
+                    <td th:text="${product.getProductName()}">Name</td>
+                    <td th:text="${product.getPrice()}">Price</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div>
-            <tr th:each="product : ${productlist}">
-            <td th:text="${product.id}">Product ID</td>
-            <td th:text="${product.productname}">Name</td>
-            <td>
-                <a th:href="/@{'/edit/' + ${product.id}}">Edit</a>
-                &nbsp;&nbsp;&nbsp;
-                <a th:href="/@{'/delete/' + ${product.id}}">Delete</a>
-            </td>
-        </tr>
-        </div>
+    </div>
+</div>
 </body>
 
 </html>
