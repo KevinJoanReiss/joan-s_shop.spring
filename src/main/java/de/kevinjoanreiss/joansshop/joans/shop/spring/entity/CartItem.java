@@ -4,14 +4,14 @@ import java.util.Optional;
 
 public class CartItem {
 
-    private Optional<Product> product;
+    private Product product;
     private int quantity;
 
-    public CartItem(Optional<Product> product) {
+    public CartItem(Product product) {
         this.product = product;
     }
 
-    public Optional<Product> getProduct() {
+    public Product getProduct() {
         return product;
     }
 

@@ -18,6 +18,7 @@ import java.util.List;
 
 @Controller
 public class ShoppingCartController {
+    List<CartItem> cart = new ArrayList<>();
 
     @Autowired
     private ProductServiceIF productServiceIF;
@@ -43,9 +44,9 @@ public class ShoppingCartController {
 
     @RequestMapping("/cart/buy/{id}")
     public String buy(Model model, @PathVariable long id) {
-        List<CartItem> cart = new ArrayList<>();
-        cart.add(new CartItem(productServiceIF.findProduct(id)));
-       // model.addAttribute("cart", cart);
+        cart.add(new CartItem(productServiceIF.findProduct(id).get()));
+        //System.out.println(productServiceIF.findProduct(id).);
+        model.addAttribute("cart", cart);
         return "cart";
     }
 }
