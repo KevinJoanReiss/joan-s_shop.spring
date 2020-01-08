@@ -33,9 +33,8 @@ public class HomeController {
     public String insertProduct(@ModelAttribute("productname") String productname,
                                 @ModelAttribute("price") double price,
                                 Model model) {
-        Product product = new Product(productname, (double) price);
+        Product product = new Product(productServiceIF.generateIndex(), productname, price);
         productServiceIF.createProduct(product);
         return "redirect:/";
     }
-
 }

@@ -5,8 +5,7 @@ import de.kevinjoanreiss.joansshop.joans.shop.spring.repository.ProductRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements ProductServiceIF {
@@ -23,5 +22,20 @@ public class ProductService implements ProductServiceIF {
     @Override
     public Iterable<Product> getProductlist() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Optional<Product> findProduct(long id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public long generateIndex() {
+        Iterable<Product> list = getProductlist();
+        long size = 0;
+        for(Product product : list) {
+            size++;
+        }
+        return size;
     }
 }

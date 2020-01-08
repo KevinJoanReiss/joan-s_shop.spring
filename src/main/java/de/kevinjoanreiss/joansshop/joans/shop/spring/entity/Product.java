@@ -7,13 +7,15 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id", updatable = false, nullable = false)
     private long productId;
 
     private String productName;
 
     private double price;
 
-    public Product(String productname, double price) {
+    public Product(long productId, String productname, double price) {
+        this.productId = productId;
         this.productName = productname;
         this.price = price;
     }
@@ -21,6 +23,8 @@ public class Product {
     public Product() {}
 
     public long getProductId() { return productId; }
+
+    public String getProductIdString() { return String.valueOf(productId); }
 
     public void setProductId(long productId) { this.productId = productId; }
 

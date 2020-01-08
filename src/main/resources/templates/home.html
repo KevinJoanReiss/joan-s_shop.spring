@@ -105,6 +105,11 @@
                 <tr th:each="product : ${productlist}">
                     <td th:text="${product.getProductName()}">Name</td>
                     <td th:text="${product.getPrice()}">Price</td>
+                    <td>
+                        <a th:href="${'/cart/buy/' + product.getProductIdString()}" class="col-md-1">
+                            <button type="button" class="btn btn-primary" th:text="Buy">buy</button>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
