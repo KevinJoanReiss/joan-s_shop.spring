@@ -29,6 +29,7 @@ public class HomeController {
         return "createProduct";
     }
 
+    /*Todo: insert image src as well
     @RequestMapping("/insertProduct")
     public String insertProduct(@ModelAttribute("productname") String productname,
                                 @ModelAttribute("price") double price,
@@ -36,5 +37,5 @@ public class HomeController {
         Product product = new Product(productServiceIF.generateIndex(), productname, price);
         productServiceIF.createProduct(product);
         return "redirect:/";
-    }
+    }*/
 }
