@@ -63,7 +63,7 @@
         </div>
 
         <div class="col-lg-9">
-
+            <h3>Product List</h3>
             <table border="1" cellpadding="10">
                 <thead>
                 <tr>
@@ -76,7 +76,7 @@
                 <tbody>
                 <tr th:each="product : ${productlist}">
                     <td>
-                        <img src=${images/salt.png} style="width:100px;height:100px">
+                        <img src="${product.getImgPath()}" style="width:100px;height:100px" th:src="@{${product.getImgName()}}"/>
                     </td>
                     <td th:text="${product.getProductName()}">Name</td>
                     <td th:text="${product.getPrice()}">Price</td>

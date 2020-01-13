@@ -57,7 +57,7 @@ public class ShoppingCartController {
             cart.add(new CartItem(productServiceIF.findProduct(id).get(), quantity));
             model.addAttribute("cart", cart);
         } else {
-            CartItem cartItem = cart.get((int) (id - 1));
+            CartItem cartItem = findCartItem(id);
             int newQuantity = cartItem.getQuantity() + 1;
             cartItem.setQuantity(newQuantity);
             model.addAttribute("cart", cart);
