@@ -38,4 +38,9 @@ public class HomeController {
         productServiceIF.createProduct(product);
         return "redirect:/";
     }*/
+
+    @RequestMapping("/loginPage")
+    public String getLoginPage() {
+        return "login";
+    }
 }

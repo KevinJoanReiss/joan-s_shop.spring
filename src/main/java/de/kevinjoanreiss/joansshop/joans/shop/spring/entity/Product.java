@@ -12,6 +12,7 @@ public class Product {
     private String productName;
     private String imgPath;
     private double price;
+    private String imgName;
 
     public String getImgPath() {
         System.out.println("TEST: " + this.imgPath);
@@ -22,30 +23,50 @@ public class Product {
         this.imgPath = imgPath;
     }
 
-    public Product(long productId, String productname, double price, String imgPath) {
+    public Product(long productId, String productname, double price, String imgPath, String imgName) {
         this.productId = productId;
         this.productName = productname;
         this.price = price;
         this.imgPath = imgPath;
+        this.imgName = imgName;
     }
 
-    public Product() {}
+    public Product() {
+    }
 
-    public long getProductId() { return productId; }
+    public long getProductId() {
+        return productId;
+    }
 
-    public String getProductIdString() { return String.valueOf(productId); }
+    public String getProductIdString() {
+        return String.valueOf(productId);
+    }
 
-    public void setProductId(long productId) { this.productId = productId; }
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
 
-    public String getProductName() { return productName; }
+    public String getProductName() {
+        return productName;
+    }
 
-    public void setProductName(String productname) { this.productName = productname; }
+    public void setProductName(String productname) {
+        this.productName = productname;
+    }
 
-    public double getPrice() { return price; }
+    public double getPrice() {
+        return price;
+    }
 
-    public void setPrice(double price) { this.price = price; }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public String getImgName() {
-        return "images/salt.png";
+        return "images/" + this.imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
     }
 }

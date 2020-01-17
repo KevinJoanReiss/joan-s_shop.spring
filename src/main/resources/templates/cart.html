@@ -55,7 +55,7 @@
                 <tbody>
                 <tr th:each="item : ${cart}">
                     <td>
-                        <img src=${images/salt.png} style="width:100px;height:100px">
+                        <img src="${item.getProduct().getImgPath()}" style="width:100px;height:100px" th:src="@{${item.getProduct().getImgName()}}"/>
                     </td>
                     <td th:text="${item.getProduct().getProductName()}"></td>
                     <td th:text="${item.getQuantityString()}"></td>
