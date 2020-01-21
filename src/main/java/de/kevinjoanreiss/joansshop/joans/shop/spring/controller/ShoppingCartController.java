@@ -1,17 +1,18 @@
 package de.kevinjoanreiss.joansshop.joans.shop.spring.controller;
 
 import de.kevinjoanreiss.joansshop.joans.shop.spring.entity.CartItem;
+import de.kevinjoanreiss.joansshop.joans.shop.spring.entity.Customer;
+import de.kevinjoanreiss.joansshop.joans.shop.spring.entity.CustomerOrder;
 import de.kevinjoanreiss.joansshop.joans.shop.spring.entity.Product;
+import de.kevinjoanreiss.joansshop.joans.shop.spring.service.CustomerOrderServiceIF;
 import de.kevinjoanreiss.joansshop.joans.shop.spring.service.ProductServiceIF;
+import de.kevinjoanreiss.joansshop.joans.shop.spring.service.auth.AccountAuthenticationService;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -19,30 +20,15 @@ import java.util.List;
 
 @Controller
 public class ShoppingCartController {
-    List<CartItem> cart = new ArrayList<>();
+    ArrayList<CartItem> cart = new ArrayList<>();
     private int quantity = 1;
+    private double total = 0;
 
     @Autowired
     private ProductServiceIF productServiceIF;
 
-   /* @RequestMapping(method = RequestMethod.GET)
-    public String index() {
-        return "cart";
-    }
-
-    @RequestMapping(value = "/buy/{id}", method = RequestMethod.GET)
-    public String buy(
-            @PathVariable("id") long id, ModelMap modelMap, HttpSession session) {
-        System.out.println("hilo");
-        if (session.getAttribute("cart") == null) {
-            List<CartItem> cart = new ArrayList<>();
-            cart.add(new CartItem(productServiceIF.findProduct(id), 1));
-            session.setAttribute("cart", cart);
-        } else {
-
-        }
-        return "redirect:../../index";
-    }*/
+   @Autowired
+   private AccountAuthenticationService accountAuthenticationService;
 
     @RequestMapping("/cart")
     public String cart(Model model) {
@@ -54,13 +40,18 @@ public class ShoppingCartController {
     @RequestMapping("/cart/buy/{id}")
     public String buy(Model model, @PathVariable long id) {
         if (!alreadyExists(id, cart)) {
-            cart.add(new CartItem(productServiceIF.findProduct(id).get(), quantity));
+            CartItem cartItem = new CartItem(productServiceIF.findProduct(id).get(), quantity);
+            cart.add(cartItem);
+            total = total + cartItem.getProduct().getPrice();
             model.addAttribute("cart", cart);
+            model.addAttribute("total", String.valueOf(total));
         } else {
             CartItem cartItem = findCartItem(id);
+            total = total + cartItem.getProduct().getPrice();
             int newQuantity = cartItem.getQuantity() + 1;
             cartItem.setQuantity(newQuantity);
             model.addAttribute("cart", cart);
+            model.addAttribute("total", String.valueOf(total));
         }
         return "cart";
     }
@@ -81,19 +72,29 @@ public class ShoppingCartController {
 
     @RequestMapping("/remove/{id}")
     public String removeProduct(@PathVariable long id, Model model) {
-        cart.remove(findCartItem(id));
+        CartItem cartItem = findCartItem(id);
+        cart.remove(cartItem);
+        total = total - cartItem.getQuantity() * cartItem.getProduct().getPrice();
         model.addAttribute("cart", cart);
+        model.addAttribute("total", String.valueOf(total));
         return "cart";
     }
 
     public CartItem findCartItem(long id) {
         CartItem cartItem;
-        for(int i = 0; i < cart.size(); i++) {
-            if(cart.get(i).getCartItemId() == id) {
+        for (int i = 0; i < cart.size(); i++) {
+            if (cart.get(i).getCartItemId() == id) {
                 cartItem = cart.get(i);
                 return cartItem;
             }
         }
         return null;
+    }
+
+    @RequestMapping("/payOrder")
+    public String payOrder() {
+        Customer customer = accountAuthenticationService.getLoggedInUser();
+        CustomerOrder customerOrder = new CustomerOrder(customer.getUserId(), cart, total, customer, "hilo");
+        return "paymentSuccessful";
     }
 }

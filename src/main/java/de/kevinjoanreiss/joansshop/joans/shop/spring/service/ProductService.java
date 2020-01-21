@@ -5,6 +5,7 @@ import de.kevinjoanreiss.joansshop.joans.shop.spring.repository.ProductRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,7 @@ public class ProductService implements ProductServiceIF {
     }
 
     @Override
-    public Iterable<Product> getProductlist() {
+    public List<Product> getProductlist() {
         return productRepository.findAll();
     }
 
@@ -37,5 +38,10 @@ public class ProductService implements ProductServiceIF {
             size++;
         }
         return size;
+    }
+
+    @Override
+    public void deleteAll() {
+        productRepository.deleteAll();
     }
 }
