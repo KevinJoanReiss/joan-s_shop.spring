@@ -30,6 +30,9 @@ public class ShoppingCartController {
    @Autowired
    private AccountAuthenticationService accountAuthenticationService;
 
+   @Autowired
+   private CustomerOrderServiceIF customerOrderServiceIF;
+
     @RequestMapping("/cart")
     public String cart(Model model) {
         if (cart != null)
@@ -94,7 +97,11 @@ public class ShoppingCartController {
     @RequestMapping("/payOrder")
     public String payOrder() {
         Customer customer = accountAuthenticationService.getLoggedInUser();
-        CustomerOrder customerOrder = new CustomerOrder(customer.getUserId(), cart, total, customer, "hilo");
+        CustomerOrder customerOrder = new CustomerOrder(customer.getUserId(), total, "hilo");
+        System.out.println(customerOrder.getStatus());
+        customerOrderServiceIF.createOrder(customerOrder);
+        System.out.println("successfully ordered");
+
         return "paymentSuccessful";
     }
 }

@@ -14,10 +14,11 @@ public class RestController {
     CustomerOrderServiceIF customerOrderServiceIF;
 
 
-    @RequestMapping(value = "/getOrderStatus/{id}/{status}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getOrderStatus/{id}/{status}", method = RequestMethod.POST)
     public CustomerOrder getOrderStatus(@PathVariable("id") long id, @PathVariable("status") String status) {
         CustomerOrder customerOrder = customerOrderServiceIF.findOrderbyId(id);
         customerOrder.setStatus(status);
+        System.out.println("why are you running");
         customerOrderServiceIF.createOrder(customerOrder);
         return customerOrder;
     }

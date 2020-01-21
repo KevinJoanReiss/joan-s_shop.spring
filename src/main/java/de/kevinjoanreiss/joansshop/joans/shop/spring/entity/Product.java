@@ -1,9 +1,11 @@
 package de.kevinjoanreiss.joansshop.joans.shop.spring.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-public class Product {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -68,5 +70,22 @@ public class Product {
 
     public void setImgName(String imgName) {
         this.imgName = imgName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return getProductId() == product.getProductId() &&
+                Double.compare(product.getPrice(), getPrice()) == 0 &&
+                Objects.equals(getProductName(), product.getProductName()) &&
+                Objects.equals(getImgPath(), product.getImgPath()) &&
+                Objects.equals(getImgName(), product.getImgName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductId(), getProductName(), getImgPath(), getPrice(), getImgName());
     }
 }

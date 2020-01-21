@@ -1,14 +1,16 @@
 package de.kevinjoanreiss.joansshop.joans.shop.spring.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class CustomerOrder {
+@Access(AccessType.FIELD)
+public class CustomerOrder implements Serializable {
     @Id
     private long id;
 
@@ -18,12 +20,10 @@ public class CustomerOrder {
     private Customer customer;
     private String status;
 
-    public CustomerOrder(long id, ArrayList<CartItem> items, double total, Customer customer, String status) {
+    public CustomerOrder(long id, double total, String status) {
         this.status = status;
         this.id = id;
-        this.items = items;
         this.total = total;
-        this.customer = customer;
     }
 
     public String getStatus() {
@@ -66,5 +66,21 @@ public class CustomerOrder {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomerOrder customerOrder = (CustomerOrder) o;
+        return id == customerOrder.id &&
+                Objects.equals(items, customerOrder.items) &&
+                Objects.equals(total, customerOrder.total) &&
+                Objects.equals(status, customerOrder.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, items, total, status);
     }
 }
